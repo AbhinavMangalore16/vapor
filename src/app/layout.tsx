@@ -10,6 +10,8 @@ import {
   UserButton,
 } from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/theme-provider";
+import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { Providers } from "@/components/providers";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -43,36 +45,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${ibmPlexSans.variable} antialiased`}
-      >
-        
-        <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-        >
-        <header>
-          <SignedOut>
-            <SignInButton/>
-            <SignUpButton>
-              <button className="bg-[#BA1E68] text-white p-2 rounded-md">
-                Sign Up
-              </button>
-            </SignUpButton>
-          </SignedOut>
-          <SignedIn>
-            <UserButton/>
-          </SignedIn>
-        </header>
-        {children}
-        </ThemeProvider>
-        
+      > 
+      <ClerkProvider>
+          <Providers>
+          {children}
+          </Providers>
+      </ClerkProvider>
       </body>
     </html>
-    </ClerkProvider>
   );
 }
