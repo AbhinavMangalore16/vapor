@@ -36,7 +36,9 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
           <UnauthenticatedView/>
         </Unauthenticated>
         <AuthLoading>
-          <Spinner/>
+          <div className="flex items-center justify-center w-full h-full">
+            <Spinner className="w-4 h-4" />
+          </div>
         </AuthLoading>
       </ThemeProvider>
     </ConvexProviderWithClerk>

@@ -9,6 +9,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { Button } from "@/components/ui/button";
 import { useTraceLimits } from "../hooks/useTrace";
 import { Doc } from "../../../../convex/_generated/dataModel";
+import { Kbd } from "@/components/ui/kbd";
 
 interface TracesListProps {
   onViewAllTraces: () => void;
@@ -100,6 +101,9 @@ export const TracesList = ({ onViewAllTraces }: TracesListProps) => {
               className="text-sm text-muted-foreground hover:text-primary transition-colors"
             >
               View All
+              <Kbd className="bg-muted/50 text-muted-foreground border-none font-sans text-xs ml-2">
+                ⌘ + K
+              </Kbd>
             </button>
           </div>
 
