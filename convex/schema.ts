@@ -10,6 +10,13 @@ export default defineSchema({
             v.literal("Importing"),
             v.literal("Success"),
             v.literal("Failure")
-        ))
+        )),
+        exportStatus: v.optional(v.union(
+            v.literal("Exporting"),
+            v.literal("Success"),
+            v.literal("Failure"),
+            v.literal("Not Exported")
+        )),
+        updatedAt: v.number(), 
     }).index("by_owner", ["ownerId"])
 })

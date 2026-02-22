@@ -8,7 +8,8 @@
  * @module
  */
 
-import type * as traces from "../trace.js";
+import type * as auth from "../auth.js";
+import type * as trace from "../trace.js";
 
 import type {
   ApiFromModules,
@@ -17,7 +18,8 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
-  traces: typeof traces;
+  auth: typeof auth;
+  trace: typeof trace;
 }>;
 
 /**

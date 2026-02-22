@@ -1,5 +1,6 @@
 import { v } from "convex/values"
 import { mutation, query } from "./_generated/server"
+import { verifyIdent } from "./auth"
 
 
 export const create = mutation({
@@ -7,19 +8,36 @@ export const create = mutation({
     name: v.string()
   },
   handler: async (ctx, args) =>{
-    const ident = await ctx.auth.getUserIdentity();
-    if (!ident){
-      throw new Error("Unauthorized!")
-    }
+    const ident = await verifyIdent(ctx);
     await ctx.db.insert("traces", {
       name: args.name,
       ownerId: ident.subject,
-      importStatus: "Success"
+      importStatus: "Success",
+      exportStatus: "Not Exported",
+      updatedAt: Date.now()
     })
   }
 })
 
+export const getQuery = query({
+  args: {
+    lim: v.number()
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    console.log(identity);
+    if (!identity) throw new Error("Unauthenticated!");
+
+    return await ctx.db
+    .query("traces")
+    .withIndex("by_owner", (q)=>q.eq("ownerId", identity.subject))
+    .take(args.lim)
+  },
+});
+
 export const get = query({
+  args: {
+  },
   handler: async (ctx) => {
     const identity = await ctx.auth.getUserIdentity();
     console.log(identity);
@@ -28,6 +46,6 @@ export const get = query({
     return await ctx.db
     .query("traces")
     .withIndex("by_owner", (q)=>q.eq("ownerId", identity.subject))
-    .collect()
+    .collect;
   },
 });
